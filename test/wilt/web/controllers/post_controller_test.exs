@@ -29,7 +29,7 @@ defmodule Wilt.Web.PostControllerTest do
     assert redirected_to(conn) == post_path(conn, :show, id)
 
     conn = get conn, post_path(conn, :show, id)
-    assert html_response(conn, 200) =~ "Show Post"
+    assert html_response(conn, 200) =~ @create_attrs[:title]
   end
 
   test "does not create post and renders errors when data is invalid", %{conn: conn} do

@@ -39,6 +39,16 @@ defmodule Wilt.DataTest do
       assert {:error, %Ecto.Changeset{}} = Data.create_post(@invalid_attrs)
     end
 
+    test "create_post/1 escapes html tags in the body" do
+      attrs = %{@valid_attrs | body: "Hello <iframe src='http://google.com'></iframe>"}
+      assert {:ok, %Post{} = post} = Data.create_post(attrs)
+      assert post.body == "Hello &lt;iframe src=&#39;http://google.com&#39;&gt;&lt;/iframe&gt;"
+
+      attrs = %{@valid_attrs | body: "Hello <script type='javascript'>alert('foo');</script>"}
+      assert {:ok, %Post{} = post} = Data.create_post(attrs)
+      assert post.body == "Hello &lt;script type=&#39;javascript&#39;&gt;alert(&#39;foo&#39;);&lt;/script&gt;"
+    end
+    
     test "update_post/2 with valid data updates the post" do
       post = post_fixture()
       assert {:ok, post} = Data.update_post(post, @update_attrs)
@@ -53,6 +63,18 @@ defmodule Wilt.DataTest do
       assert post == Data.get_post!(post.id)
     end
 
+    test "upda_post/2 escapes html tags in the body" do
+      post = post_fixture()
+      attrs = %{body: "Hello <iframe src='http://google.com'></iframe>"}
+      assert {:ok, post} = Data.update_post(post, attrs)
+      assert post.body == "Hello &lt;iframe src=&#39;http://google.com&#39;&gt;&lt;/iframe&gt;"
+
+      post = post_fixture()
+      attrs = %{body: "Hello <script type='javascript'>alert('foo');</script>"}
+      assert {:ok, post} = Data.update_post(post, attrs)
+      assert post.body == "Hello &lt;script type=&#39;javascript&#39;&gt;alert(&#39;foo&#39;);&lt;/script&gt;"
+    end
+    
     test "delete_post/1 deletes the post" do
       post = post_fixture()
       assert {:ok, %Post{}} = Data.delete_post(post)
