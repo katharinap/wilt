@@ -16,7 +16,8 @@ defmodule Wilt.Web.Router do
   scope "/", Wilt.Web do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", PostController, :index
+    resources "/snippets", PostController
   end
 
   # Other scopes may use custom stacks.
