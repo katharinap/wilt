@@ -6,8 +6,8 @@ defmodule Wilt.DataTest do
   describe "posts" do
     alias Wilt.Data.Post
 
-    @valid_attrs %{body: "some body", title: "some title"}
-    @update_attrs %{body: "some updated body", title: "some updated title"}
+    @valid_attrs %{body: "some body", title: "some title", tag_list: "tag_one, tag two,tag_three"}
+    @update_attrs %{body: "some updated body", title: "some updated title", tag_list: "one,two"}
     @invalid_attrs %{body: nil, title: nil}
 
     def post_fixture(attrs \\ %{}) do
@@ -31,8 +31,11 @@ defmodule Wilt.DataTest do
 
     test "create_post/1 with valid data creates a post" do
       assert {:ok, %Post{} = post} = Data.create_post(@valid_attrs)
+      Wilt.Repo.preload(post, :tags)
       assert post.title == "some title"
       assert post.body == "some body"
+      tag_names = Enum.map(post.tags, &(&1.name))
+      assert tag_names == ["tag_one", "tag two", "tag_three"]
     end
 
     test "create_post/1 with invalid data returns error changeset" do
@@ -55,6 +58,11 @@ defmodule Wilt.DataTest do
       assert %Post{} = post
       assert post.body == "some updated body"
       assert post.title == "some updated title"
+      tag_names = Enum.map(post.tags, &(&1.name))
+      assert tag_names == ["one", "two"]
+
+      tags_all = Data.list_tags
+      assert Enum.map(tags_all, &(&1.name)) == ["tag_one", "tag two", "tag_three", "one", "two"]
     end
 
     test "update_post/2 with invalid data returns error changeset" do

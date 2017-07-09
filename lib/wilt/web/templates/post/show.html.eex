@@ -1,5 +1,11 @@
 <h2><%= @post.title %></h2>
 
+<div class="tags">
+  <ul>
+    <%= for tag <- @post.tags do %>
+	<li><%= tag.name %></li>
+    <% end %>
+  </ul>
 <div class="post">
   <%= markdown(@post.body) %>
 </div>

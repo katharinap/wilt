@@ -6,4 +6,10 @@ defmodule Wilt.Web.PostView do
     |> Earmark.as_html!
     |> raw
   end
+
+  def tag_list(tags) do
+    tags
+    |> Enum.map(&(&1.name))
+    |> Enum.join(",")
+  end
 end

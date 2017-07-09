@@ -6,7 +6,7 @@ defmodule Wilt.Data do
   import Ecto.Query, warn: false
   alias Wilt.Repo
 
-  alias Wilt.Data.Post
+  alias Wilt.Data.{Post,Tag}
 
   @doc """
   Returns the list of posts.
@@ -18,7 +18,9 @@ defmodule Wilt.Data do
 
   """
   def list_posts do
-    Repo.all(Post)
+    Post
+    |> Repo.all
+    |> Repo.preload(:tags)
   end
 
   @doc """
@@ -35,8 +37,12 @@ defmodule Wilt.Data do
       ** (Ecto.NoResultsError)
 
   """
-  def get_post!(id), do: Repo.get!(Post, id)
-
+  def get_post!(id) do
+    Post
+    |> Repo.get!(id)
+    |> Repo.preload(:tags)
+  end
+  
   @doc """
   Creates a post.
 
@@ -69,6 +75,7 @@ defmodule Wilt.Data do
   """
   def update_post(%Post{} = post, attrs) do
     post
+    |> Repo.preload(:tags)
     |> Post.changeset(attrs)
     |> Repo.update()
   end
@@ -100,5 +107,30 @@ defmodule Wilt.Data do
   """
   def change_post(%Post{} = post) do
     Post.changeset(post, %{})
+  end
+
+
+  def insert_and_get_all_tags([]) do
+    []
+  end
+
+  def insert_and_get_all_tags(names) do
+    maps = Enum.map(names, &%{name: &1, inserted_at: Ecto.DateTime.utc, updated_at: Ecto.DateTime.utc})
+    Repo.insert_all Tag, maps, on_conflict: :nothing
+    Repo.all(from t in Tag, where: t.name in ^names)
+  end
+
+  @doc """
+  Returns the list of tags.
+
+  ## Examples
+
+      iex> list_tags()
+      [%Tag{}, ...]
+
+  """
+  def list_tags do
+    Tag
+    |> Repo.all
   end
 end

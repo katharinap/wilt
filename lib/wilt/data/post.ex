@@ -1,13 +1,14 @@
 defmodule Wilt.Data.Post do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Wilt.Data.Post
+  alias Wilt.Data.{Post, Tag}
 
 
   schema "posts" do
     field :body, :string
     field :title, :string
-
+    many_to_many :tags, Tag, join_through: "taggings", on_replace: :delete, on_delete: :delete_all
+    
     timestamps()
   end
 
@@ -17,6 +18,7 @@ defmodule Wilt.Data.Post do
     |> cast(attrs, [:title, :body])
     |> validate_required([:title, :body])
     |> strip_unsafe_body(attrs)
+    |> put_assoc(:tags, parse_tags(attrs))
   end
 
   defp strip_unsafe_body(post, %{body: nil}) do
@@ -30,5 +32,13 @@ defmodule Wilt.Data.Post do
 
   defp strip_unsafe_body(post, _) do
     post
+  end
+
+  def parse_tags(attrs)  do
+    (attrs["tag_list"] || attrs[:tag_list] || "")
+    |> String.split(",")
+    |> Enum.map(&String.trim/1)
+    |> Enum.reject(& &1 == "")
+    |> Wilt.Data.insert_and_get_all_tags()
   end
 end
