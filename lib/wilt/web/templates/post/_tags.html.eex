@@ -1,0 +1,5 @@
+<div class="tags">
+    <%= for tag <- @tags do %>
+	<span class="label label-primary"><%= tag.name %></span>
+    <% end %>
+</div>

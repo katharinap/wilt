@@ -1,13 +1,9 @@
 <h2><%= @post.title %></h2>
 
-<div class="tags">
-  <ul>
-    <%= for tag <- @post.tags do %>
-	<li><%= tag.name %></li>
-    <% end %>
-  </ul>
+<%=  render "_tags.html", tags: @post.tags %>
+
 <div class="post">
-  <%= markdown(@post.body) %>
+    <%= markdown(@post.body) %>
 </div>
 
 <span><%= link "Edit", to: post_path(@conn, :edit, @post) %></span>
