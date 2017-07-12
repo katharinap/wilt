@@ -94,4 +94,64 @@ defmodule Wilt.DataTest do
       assert %Ecto.Changeset{} = Data.change_post(post)
     end
   end
+
+  describe "users" do
+    alias Wilt.Data.User
+    
+    @valid_attrs %{email: "me@example.com", password: "supersecretpassword*42"}
+
+    def user_fixture(attrs \\ %{}) do
+      {:ok, user} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Data.create_user()
+
+      user
+    end
+
+    test "change_user/1 returns a user changeset" do
+      user = user_fixture()
+      assert %Ecto.Changeset{} = Data.change_user(user)
+    end
+
+    test "create_user/1 with valid data creates a user" do
+      assert {:ok, %User{} = user} = Data.create_user(@valid_attrs)
+      assert user.email == "me@example.com"
+      refute user.crypted_password == nil
+    end
+
+    test "create_user/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Data.create_user(%{email: "meatexample.com", password: "supersecretpassword*42"})
+      assert {:error, %Ecto.Changeset{}} = Data.create_user(%{email: "me@example.com", password: "i*42"})
+    end
+
+    test "get_user!/1 returns the user with given id" do
+      expected_user = user_fixture()
+      user = Data.get_user!(expected_user.id)
+      assert user.id == expected_user.id
+      assert user.email == expected_user.email
+      assert user.crypted_password == expected_user.crypted_password
+    end
+
+    test "get_user_for_email/1 returns the user for the given email" do
+      user_fixture()
+      user2 = user_fixture(%{email: "me2@example.com"})
+      user = Data.get_user_for_email("me2@example.com")
+      assert user.id == user2.id
+      assert Data.get_user_for_email("me3@example.com") == nil
+    end
+
+    test "get_user_for_email/1 returns nil if there is no user for the given email" do
+      assert Data.get_user_for_email("me2@example.com") == nil
+    end
+
+    test "login_user/1 returns {:ok, user} if the user can be authenticated" do
+      user_fixture()
+      assert {:ok, _} = Data.login_user(%{"email" => "me@example.com", "password" => "supersecretpassword*42"})
+    end
+    
+    test "login_user/1 returns :error if the user cannot be authenticated" do
+      assert :error = Data.login_user(%{"email" => "me@example.com", "password" => "lalalala"})
+    end
+  end
 end

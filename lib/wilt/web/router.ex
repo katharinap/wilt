@@ -18,6 +18,10 @@ defmodule Wilt.Web.Router do
 
     get "/", PostController, :index
     resources "/snippets", PostController
+    resources "/registrations", RegistrationController, only: [:new, :create]
+    get    "/login",  SessionController, :new
+    post   "/login",  SessionController, :create
+    delete "/logout", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.
