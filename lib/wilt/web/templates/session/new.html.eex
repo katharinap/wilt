@@ -15,3 +15,5 @@
     <%= submit "Login", class: "btn btn-primary" %>
 </div>
 <% end %>
+
+Don't have an account yet? <%= link "Register", to: registration_path(@conn, :new) %>
