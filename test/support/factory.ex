@@ -15,7 +15,7 @@ defmodule Wilt.Data.Factory do
 
   def post_factory do
     %Wilt.Data.Post{
-      title: "Super Relevant Post!",
+      title: sequence(:title, &"Super Relevant Post Number #{&1}!"),
       body: "Something interesting but complicated...",
       user: build(:user),
       tags: build_list(3, :tag, %{})

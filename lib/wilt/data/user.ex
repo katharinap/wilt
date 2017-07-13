@@ -1,13 +1,14 @@
 defmodule Wilt.Data.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Wilt.Data.User
+  alias Wilt.Data.{User, Post}
 
 
   schema "users" do
     field :email, :string
     field :crypted_password, :string
     field :password, :string, virtual: true
+    has_many :posts, Post
     
     timestamps()
   end

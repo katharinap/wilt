@@ -20,7 +20,7 @@ defmodule Wilt.Data do
   def list_posts do
     Post
     |> Repo.all
-    |> Repo.preload(:tags)
+    |> Repo.preload([:tags, :user])
   end
 
   @doc """
@@ -40,7 +40,7 @@ defmodule Wilt.Data do
   def get_post!(id) do
     Post
     |> Repo.get!(id)
-    |> Repo.preload(:tags)
+    |> Repo.preload([:tags, :user])
   end
   
   @doc """

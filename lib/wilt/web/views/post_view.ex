@@ -12,4 +12,12 @@ defmodule Wilt.Web.PostView do
     |> Enum.map(&(&1.name))
     |> Enum.join(",")
   end
+
+  def author_name(post) do
+    if post.user do
+      post.user.email
+    else
+      "unknown"
+    end
+  end
 end

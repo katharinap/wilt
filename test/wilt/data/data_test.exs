@@ -21,8 +21,10 @@ defmodule Wilt.DataTest do
     end
 
     test "get_post!/1 returns the post with given id" do
-      post = post_fixture()
+      user = insert(:user, %{email: "someone@example.com"})
+      post = post_fixture(%{user: user})
       assert Data.get_post!(post.id) == post
+      assert "someone@example.com" == post.user.email
     end
 
     test "create_post/1 with valid data creates a post" do
@@ -118,16 +120,22 @@ defmodule Wilt.DataTest do
 
     test "get_user!/1 returns the user with given id" do
       expected_user = user_fixture()
+      expected_posts = insert_list(2, :post, %{user: expected_user})
       user = Data.get_user!(expected_user.id)
+      user = Wilt.Repo.preload(user, :posts)
+
+      titles = fn posts -> Enum.map(posts, &(&1.title)) end
       assert user.id == expected_user.id
       assert user.email == expected_user.email
       assert user.crypted_password == expected_user.crypted_password
+      assert titles.(user.posts) == titles.(expected_posts)
     end
 
     test "get_user_for_email/1 returns the user for the given email" do
       user_fixture()
       user2 = user_fixture(%{email: "me2@example.com"})
       user = Data.get_user_for_email("me2@example.com")
+      
       assert user.id == user2.id
       assert Data.get_user_for_email("me3@example.com") == nil
     end

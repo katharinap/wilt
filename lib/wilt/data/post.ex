@@ -1,12 +1,13 @@
 defmodule Wilt.Data.Post do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Wilt.Data.{Post, Tag}
+  alias Wilt.Data.{Post, Tag, User}
 
 
   schema "posts" do
     field :body, :string
     field :title, :string
+    belongs_to :user, User
     many_to_many :tags, Tag, join_through: "taggings", on_replace: :delete, on_delete: :delete_all
     
     timestamps()
@@ -15,9 +16,10 @@ defmodule Wilt.Data.Post do
   @doc false
   def changeset(%Post{} = post, attrs) do
     post
-    |> cast(attrs, [:title, :body])
+    |> cast(attrs, [:title, :body, :user_id])
     |> validate_required([:title, :body])
     |> strip_unsafe_body(attrs)
+    |> assoc_constraint(:user)
     |> put_assoc(:tags, parse_tags(attrs))
   end
 

@@ -4,6 +4,7 @@
     <thead>
 	<tr>
 	    <th>Title</th>
+	    <th>Author</th>
 	    <th/>
 	    <th/>
 	</tr>
@@ -12,6 +13,7 @@
 	<%= for post <- @posts do %>
 	    <tr>
 		<td><%= post.title %></td>
+		<td><%= author_name(post) %></td>
 		<td><%= render "_tags.html", tags: post.tags %></td>
 		<td class="text-right">
 		    <span><%= link "Show", to: post_path(@conn, :show, post), class: "btn btn-default btn-xs" %></span>

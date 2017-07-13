@@ -23,6 +23,8 @@
     <%= error_tag f, :tag_list %>
   </div>
 
+  <%= hidden_input f, :user_id %>
+
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
