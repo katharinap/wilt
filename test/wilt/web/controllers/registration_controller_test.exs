@@ -1,13 +1,11 @@
 defmodule Wilt.Web.RegistrationControllerTest do
   use Wilt.Web.ConnCase
-
-  alias Wilt.Data
+  import Wilt.Data.Factory
 
   @create_attrs %{email: "me@example.com", password: "supersecretpassword*42"}
   
   def fixture(:user) do
-    {:ok, user} = Data.create_user(@create_attrs)
-    user
+    insert(:user, @create_attrs)
   end
 
   test "renders form for new user", %{conn: conn} do

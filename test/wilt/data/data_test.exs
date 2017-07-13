@@ -1,22 +1,18 @@
 defmodule Wilt.DataTest do
   use Wilt.DataCase
+  import Wilt.Data.Factory
 
   alias Wilt.Data
 
   describe "posts" do
     alias Wilt.Data.Post
 
-    @valid_attrs %{body: "some body", title: "some title", tag_list: "tag_one, tag two,tag_three"}
+    @valid_attrs %{body: "some body", title: "some title"}
     @update_attrs %{body: "some updated body", title: "some updated title", tag_list: "one,two"}
     @invalid_attrs %{body: nil, title: nil}
 
     def post_fixture(attrs \\ %{}) do
-      {:ok, post} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Data.create_post()
-
-      post
+      insert(:post, Enum.into(attrs, @valid_attrs))
     end
 
     test "list_posts/0 returns all posts" do
@@ -30,7 +26,8 @@ defmodule Wilt.DataTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      assert {:ok, %Post{} = post} = Data.create_post(@valid_attrs)
+      attrs = Enum.into(%{tag_list: "tag_one, tag two,tag_three"}, @valid_attrs)
+      assert {:ok, %Post{} = post} = Data.create_post(attrs)
       Wilt.Repo.preload(post, :tags)
       assert post.title == "some title"
       assert post.body == "some body"
@@ -61,8 +58,7 @@ defmodule Wilt.DataTest do
       tag_names = Enum.map(post.tags, &(&1.name))
       assert tag_names == ["one", "two"]
 
-      tags_all = Data.list_tags
-      assert Enum.map(tags_all, &(&1.name)) == ["tag_one", "tag two", "tag_three", "one", "two"]
+      assert Enum.count(Data.list_tags) == 5
     end
 
     test "update_post/2 with invalid data returns error changeset" do
@@ -101,12 +97,7 @@ defmodule Wilt.DataTest do
     @valid_attrs %{email: "me@example.com", password: "supersecretpassword*42"}
 
     def user_fixture(attrs \\ %{}) do
-      {:ok, user} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Data.create_user()
-
-      user
+      insert(:user, Enum.into(attrs, @valid_attrs))
     end
 
     test "change_user/1 returns a user changeset" do
@@ -146,12 +137,14 @@ defmodule Wilt.DataTest do
     end
 
     test "login_user/1 returns {:ok, user} if the user can be authenticated" do
-      user_fixture()
+      Data.create_user(%{email: "me@example.com", password: "supersecretpassword*42"})
       assert {:ok, _} = Data.login_user(%{"email" => "me@example.com", "password" => "supersecretpassword*42"})
     end
     
     test "login_user/1 returns :error if the user cannot be authenticated" do
+      Data.create_user(%{email: "me@example.com", password: "supersecretpassword*42"})
       assert :error = Data.login_user(%{"email" => "me@example.com", "password" => "lalalala"})
+      assert :error = Data.login_user(%{"email" => "me2@example.com", "password" => "supersecretpassword*42"})
     end
   end
 end

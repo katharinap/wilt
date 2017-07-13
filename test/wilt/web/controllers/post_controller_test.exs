@@ -1,15 +1,13 @@
 defmodule Wilt.Web.PostControllerTest do
   use Wilt.Web.ConnCase
-
-  alias Wilt.Data
+  import Wilt.Data.Factory
 
   @create_attrs %{body: "some body", title: "some title"}
   @update_attrs %{body: "some updated body", title: "some updated title"}
   @invalid_attrs %{body: nil, title: nil}
 
   def fixture(:post) do
-    {:ok, post} = Data.create_post(@create_attrs)
-    post
+    insert(:post, @create_attrs)
   end
 
   test "lists all entries on index", %{conn: conn} do

@@ -6,6 +6,8 @@ defmodule Wilt.Web.SessionControllerTest do
   @user_attrs %{email: "me@example.com", password: "supersecretpassword*42"}
   
   def fixture(:user) do
+    # we need the crypted password for these tests and i haven't
+    # figured out how to do that with ex_machina yet
     {:ok, user} = Data.create_user(@user_attrs)
     user
   end
