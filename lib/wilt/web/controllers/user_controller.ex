@@ -1,4 +1,4 @@
-defmodule Wilt.Web.RegistrationController do
+defmodule Wilt.Web.UserController do
   use Wilt.Web, :controller
 
   alias Wilt.Data
