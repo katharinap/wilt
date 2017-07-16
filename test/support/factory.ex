@@ -4,6 +4,7 @@ defmodule Wilt.Data.Factory do
   def user_factory do
     %Wilt.Data.User{
       email: sequence(:email, &"email-#{&1}@example.com"),
+      username: sequence(:username, &"user#{&1}")
     }
   end
 

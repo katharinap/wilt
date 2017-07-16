@@ -1,5 +1,5 @@
 defmodule Wilt.Web.PostViewTest do
-  use Wilt.Web.ConnCase, async: true
+  use Wilt.Web.ConnCase
 
   test "markdown/1 converts markdown to html" do
     {:safe, result} = Wilt.Web.PostView.markdown("**bold me**")

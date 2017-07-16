@@ -6,6 +6,7 @@ defmodule Wilt.Data.User do
 
   schema "users" do
     field :email, :string
+    field :username, :string
     field :crypted_password, :string
     field :password, :string, virtual: true
     has_many :posts, Post
@@ -16,9 +17,10 @@ defmodule Wilt.Data.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:email, :crypted_password, :password])
-    |> validate_required([:email, :password])
+    |> cast(attrs, [:email, :username, :crypted_password, :password])
+    |> validate_required([:email, :username, :password])
     |> unique_constraint(:email)
+    |> unique_constraint(:username)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 5)
     |> put_change(:crypted_password, hashed_password(attrs[:password] || attrs["password"]))

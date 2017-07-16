@@ -20,9 +20,20 @@ defmodule Wilt.Web.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import Wilt.Web.Router.Helpers
+      import Wilt.Data.Factory
 
       # The default endpoint for testing
       @endpoint Wilt.Web.Endpoint
+
+      def with_user_session(conn), do: with_user_session(conn, insert(:user).id)
+      def with_user_session(conn, user_id) do
+	# ???
+	session_opts = Plug.Session.init(store: :cookie, key: "_app", encryption_salt: "abc", signing_salt: "abc")
+	conn
+	|> Plug.Session.call(session_opts)
+	|> Plug.Conn.fetch_session()
+	|> Plug.Conn.put_session(:current_user, user_id)
+      end  
     end
   end
 

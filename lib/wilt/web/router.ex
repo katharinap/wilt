@@ -18,7 +18,7 @@ defmodule Wilt.Web.Router do
 
     get "/", PostController, :index
     resources "/snippets", PostController
-    resources "/users", UserController, only: [:new, :create]
+    resources "/users", UserController, only: [:new, :create, :edit, :update]
     get    "/login",  SessionController, :new
     post   "/login",  SessionController, :create
     delete "/logout", SessionController, :delete

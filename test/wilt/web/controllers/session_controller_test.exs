@@ -3,7 +3,7 @@ defmodule Wilt.Web.SessionControllerTest do
 
   alias Wilt.Data
 
-  @user_attrs %{email: "me@example.com", password: "supersecretpassword*42"}
+  @user_attrs %{email: "me@example.com", password: "supersecretpassword*42", username: "me"}
   
   def fixture(:user) do
     # we need the crypted password for these tests and i haven't

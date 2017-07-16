@@ -60,15 +60,8 @@ defmodule Wilt.Web.PostController do
     |> redirect(to: post_path(conn, :index))
   end
 
-  defp authenticate(conn, _params) do
-    if Wilt.Web.SessionHelpers.current_user(conn) do
-      conn
-    else
-      conn
-      |> put_flash(:info, "You must be logged in")
-      |> redirect(to: "/")
-      |> halt
-    end
+  defp authenticate(conn, _) do
+    Wilt.Web.AuthHelpers.authenticate(conn)
   end
   
   defp find_post(conn, _) do
@@ -78,17 +71,6 @@ defmodule Wilt.Web.PostController do
 
   defp authorize(conn, _) do
     post = conn.assigns[:post]
-    if post.user_id == current_user_id(conn) do
-      conn
-    else
-      conn
-      |> put_flash(:info, "You can only edit your own posts")
-      |> redirect(to: "/")
-      |> halt
-    end
-  end
-
-  defp current_user_id(conn) do
-    get_session(conn, :current_user)
+    Wilt.Web.AuthHelpers.authorize(conn, post.user)
   end
 end

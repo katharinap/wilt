@@ -96,7 +96,7 @@ defmodule Wilt.DataTest do
   describe "users" do
     alias Wilt.Data.User
     
-    @valid_attrs %{email: "me@example.com", password: "supersecretpassword*42"}
+    @valid_attrs %{email: "me@example.com", password: "supersecretpassword*42", username: "me"}
 
     def user_fixture(attrs \\ %{}) do
       insert(:user, Enum.into(attrs, @valid_attrs))
@@ -133,7 +133,7 @@ defmodule Wilt.DataTest do
 
     test "get_user_for_email/1 returns the user for the given email" do
       user_fixture()
-      user2 = user_fixture(%{email: "me2@example.com"})
+      user2 = user_fixture(%{email: "me2@example.com", username: "me2"})
       user = Data.get_user_for_email("me2@example.com")
       
       assert user.id == user2.id
@@ -145,12 +145,12 @@ defmodule Wilt.DataTest do
     end
 
     test "login_user/1 returns {:ok, user} if the user can be authenticated" do
-      Data.create_user(%{email: "me@example.com", password: "supersecretpassword*42"})
+      Data.create_user(@valid_attrs)
       assert {:ok, _} = Data.login_user(%{"email" => "me@example.com", "password" => "supersecretpassword*42"})
     end
     
     test "login_user/1 returns :error if the user cannot be authenticated" do
-      Data.create_user(%{email: "me@example.com", password: "supersecretpassword*42"})
+      Data.create_user(@valid_attrs)
       assert :error = Data.login_user(%{"email" => "me@example.com", "password" => "lalalala"})
       assert :error = Data.login_user(%{"email" => "me2@example.com", "password" => "supersecretpassword*42"})
     end

@@ -187,6 +187,24 @@ defmodule Wilt.Data do
     Repo.get_by(User, email: String.downcase(email))
   end
 
+  @doc """
+  Updates a user.
+
+  ## Examples
+
+      iex> update_user(user, %{field: new_value})
+      {:ok, %User{}}
+
+      iex> update_user(user, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
+
   def login_user(params) do
     user = get_user_for_email(params["email"])
     case authenticate(user, params["password"]) do
