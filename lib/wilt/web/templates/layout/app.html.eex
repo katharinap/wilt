@@ -17,7 +17,7 @@
 		<nav role="navigation">
 		    <ul class="nav nav-pills pull-right">
  			<%= if logged_in?(@conn) do %>
-			    <li class="nav-item"><%= String.upcase(current_user(@conn).username) %></li>
+			    <li class="nav-item"><%= String.upcase(current_user(@conn).email) %></li>
 			    <li class="nav-item"><%= link to: user_path(@conn, :edit, current_user(@conn)), class: "icon-link" do %>
 				<i class="fa fa-cog fa-lg" aria-muted="true"></i>
 			    <% end %>
