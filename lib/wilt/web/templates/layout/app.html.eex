@@ -9,6 +9,8 @@
 
 	<title>What I Learned Today</title>
 	<link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/zenburn.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
     </head>
 
     <body style="background-image: url(<%= static_path(@conn, "/images/keyboard_1920.jpg") %>); background-repeat: no-repeat; background-attachment: fixed">
@@ -49,6 +51,7 @@
 	</div> <!-- /container -->
 	<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 	<script>require("js/app").App.run()</script>
+	<script>hljs.initHighlightingOnLoad();</script>
     </body>
 </html>
 

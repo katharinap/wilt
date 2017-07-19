@@ -57,6 +57,7 @@ exports.config = {
     },
     copycat:{
       "fonts" : ["node_modules/font-awesome/fonts"],
+      // "css" : ["node_modules/highlight.js/styles/zenburn.css"],
       verbose : true, //shows each file that is copied to the destination directory
       onlyChanged: true //only copy a file if it's modified time has changed (only effective when using brunch watch)
     }
