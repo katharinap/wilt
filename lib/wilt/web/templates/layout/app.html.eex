@@ -17,25 +17,30 @@
 	<div class="container-fluid">
 	    <header class="header">
 		<nav role="navigation">
-		    <ul class="nav nav-pills pull-right">
+		    <ul class="list-inline pull-right">
  			<%= if logged_in?(@conn) do %>
-			    <li class="nav-item"><%= String.upcase(current_user(@conn).username) %></li>
-			    <li class="nav-item"><%= link to: user_path(@conn, :edit, current_user(@conn)), class: "icon-link" do %>
+			    <li class="list-inline-item icon-item">
+				<strong>
+				    <%= String.upcase(current_user(@conn).username) %>
+				</strong>
+			    </li>
+			    <li class="list-inline-item"><%= link to: user_path(@conn, :edit, current_user(@conn)), class: "icon-link" do %>
 				<i class="fa fa-cog fa-lg" aria-muted="true"></i>
 			    <% end %>
 			    </li>
-			    <li class="nav-item"><%= link to: session_path(@conn, :delete), method: :delete, class: "icon-link" do %>
+			    <li class="list-inline-item"><%= link to: session_path(@conn, :delete), method: :delete, class: "icon-link" do %>
 				<i class="fa fa-power-off fa-lg" aria-muted="true"></i>
 			    <% end %>
 			    </li>
 			<% else %>
-			    <li class="nav-item"><%= link "Login", to: session_path(@conn, :new) %></li>
+			    <li><%= link "Login", to: session_path(@conn, :new) %></li>
 			<% end %>
 		    </ul>
 		</nav>
 		<div class="page-title">
 		    What I Learned Today
 		</div>
+		<hr>
 	    </header>
 
 	    <%= if get_flash(@conn, :info) do %>

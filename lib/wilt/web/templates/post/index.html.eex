@@ -18,14 +18,20 @@
 	<%= if allow_edit?(@conn, post) do %>
 	    <div class="clearfix">
 		<div class="post-actions pull-right">
-		    <span><%= link to: post_path(@conn, :edit, post), class: "icon-link" do %>
-			<i class="fa fa-pencil fa-lg" aria-muted="true"></i>
-		    <% end %>
-		    </span>
-		    <span><%= link to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "icon-link" do %>
-			<i class="fa fa-trash fa-lg" aria-muted="true"></i>
-		    <% end %>
-		    </span>
+		    <ul class="list-inline">
+			<li class="list-inline-item">
+			    <span><%= link to: post_path(@conn, :edit, post), class: "icon-link" do %>
+				<i class="fa fa-pencil fa-lg" aria-muted="true"></i>
+			    <% end %>
+			    </span>
+			</li>
+			<li class="list-inline-item">
+			    <span><%= link to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "icon-link" do %>
+				<i class="fa fa-trash fa-lg" aria-muted="true"></i>
+			    <% end %>
+			    </span>
+			</li>
+		    </ul>
 		</div>
 	    </div>
 	<% end %>
