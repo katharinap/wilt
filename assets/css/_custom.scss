@@ -1,15 +1,21 @@
+body {
+    background-image: url("/images/computer_1920.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed
+}
+
 h1 {
-    color: CornflowerBlue;
+    color: SlateGray;
     font-family: monospace;
 }
 
 .tags {
-    color: SlateBlue;
+    color: CornflowerBlue;
     font-weight: bold;
 }
 
 .show-hide-toggle {
-    color: SlateBlue;
+    color: CornflowerBlue;
 }
 
 .container-fluid {
@@ -27,7 +33,8 @@ h1 {
 }
 
 .post-actions {
-    padding-bottom: 1em
+    padding-bottom: 1em;
+    margin-top: -2em;
 }
 
 .icon-link {
@@ -39,6 +46,6 @@ h1 {
     text-align: center;
     font-weight: bold;
     font-family: monospace;
-    color: CornflowerBlue;
+    color: LightSlateGray;
     font-variant-caps: small-caps;
 }

@@ -46,4 +46,9 @@
     <hr>
 <% end %>
 
-<span><%= link "New Post", to: post_path(@conn, :new) %></span>
+<span>
+    <%= link to: post_path(@conn, :new), class: "icon-link" do %>
+	<i class="fa fa-plus fa-lg" aria-muted="true"></i>
+	New Post
+    <% end %>
+</span>

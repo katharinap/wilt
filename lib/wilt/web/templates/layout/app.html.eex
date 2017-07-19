@@ -13,7 +13,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
     </head>
 
-    <body style="background-image: url(<%= static_path(@conn, "/images/keyboard_1920.jpg") %>); background-repeat: no-repeat; background-attachment: fixed">
+    <body>
 	<div class="container-fluid">
 	    <header class="header">
 		<nav role="navigation">
