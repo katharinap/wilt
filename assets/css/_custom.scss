@@ -1,0 +1,47 @@
+h1 {
+    color: CornflowerBlue;
+    font-family: monospace;
+}
+
+.tags {
+    color: MediumPurple;
+    font-weight: bold;
+}
+
+.show-hide-toggle {
+    color: MediumPurple;
+}
+
+// .pull-up {
+//     margin-top:-10px
+// }
+
+.container-fluid {
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+    border-radius: 10px;
+    padding: 5%
+}
+
+.user-icon {
+    width: 32px;
+    height: 32px
+}
+
+.post-actions {
+    padding-bottom: 1em
+}
+
+.icon-link {
+    color: SlateGray
+}
+
+.page-title {
+    font-size: 48px;
+    text-align: center;
+    font-weight: bold;
+    font-family: monospace;
+    color: CornflowerBlue;
+}

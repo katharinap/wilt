@@ -48,6 +48,17 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/vendor/]
+    },
+    sass: {
+      options: {
+        includePaths: ['node_modules/bootstrap/scss', 'node_modules/font-awesome/scss'],
+	precision: 8
+      }
+    },
+    copycat:{
+      "fonts" : ["node_modules/font-awesome/fonts"],
+      verbose : true, //shows each file that is copied to the destination directory
+      onlyChanged: true //only copy a file if it's modified time has changed (only effective when using brunch watch)
     }
   },
 
@@ -58,6 +69,10 @@ exports.config = {
   },
 
   npm: {
-    enabled: true
+    enabled: true,
+    globals: {
+      $: 'jquery',
+      jQuery: 'jquery'
+    }
   }
 };

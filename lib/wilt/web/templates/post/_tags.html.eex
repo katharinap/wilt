@@ -1,5 +1,8 @@
+<%= if Enum.any?(@tags) do %>
 <div class="tags">
+    <i class="fa fa-tag" aria-muted="true"></i>
     <%= for tag <- @tags do %>
-	<span class="label label-primary"><%= tag.name %></span>
+	<%= tag.name %>
     <% end %>
 </div>
+<% end %>

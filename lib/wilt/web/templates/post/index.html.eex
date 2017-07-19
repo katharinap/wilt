@@ -1,28 +1,43 @@
-<h2>Listing Posts</h2>
-
-<table class="table">
-    <thead>
-	<tr>
-	    <th>Title</th>
-	    <th>Author</th>
-	    <th/>
-	    <th/>
-	</tr>
-    </thead>
-    <tbody>
-	<%= for post <- @posts do %>
-	    <tr>
-		<td><%= post.title %></td>
-		<td><%= author_name(post) %></td>
-		<td><%= render "_tags.html", tags: post.tags %></td>
-		<td class="text-right">
-		    <span><%= link "Show", to: post_path(@conn, :show, post), class: "btn btn-default btn-xs" %></span>
-		    <span><%= link "Edit", to: post_path(@conn, :edit, post), class: "btn btn-default btn-xs" %></span>
-		    <span><%= link "Delete", to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-		</td>
-	    </tr>
+<%= for post <- @posts do %>
+    <div class="row">
+	<div class="col-md-4">
+	    <div class="post-user text-muted text-sm">
+		<strong>
+		    <img class="user-icon" src="<%= user_image(@conn, post) %>" alt="<%= author_name(post) %>"/>
+		    <%= String.upcase(author_name(post)) %> | <%= display_date(post.inserted_at) %>
+		</strong>
+	    </div>
+	</div>
+	<div class="col-md-4">
+	    <%=  render "_tags.html", tags: post.tags %>
+	</div>
+    </div>
+    <h1><%= post.title %></h1>
+    
+    <div id="post-body-<%= post.id %>" class="post-body" style="display:none">
+	<%= if allow_edit?(@conn, post) do %>
+	    <div class="clearfix">
+		<div class="post-actions pull-right">
+		    <span><%= link to: post_path(@conn, :edit, post), class: "icon-link" do %>
+			<i class="fa fa-pencil fa-lg" aria-muted="true"></i>
+		    <% end %>
+		    </span>
+		    <span><%= link to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "icon-link" do %>
+			<i class="fa fa-trash fa-lg" aria-muted="true"></i>
+		    <% end %>
+		    </span>
+		</div>
+	    </div>
 	<% end %>
-    </tbody>
-</table>
+
+	<%= markdown(post.body) %>
+    </div>
+
+    <div>
+	<a href="#" id="toggle-post-<%=  post.id %>" class="show-hide-toggle" data-toggle-id="post-body-<%= post.id %>" data-show-text="Show..." data-hide-text="Hide...">Show...</a>
+	<br>
+    </div>
+    <hr>
+<% end %>
 
 <span><%= link "New Post", to: post_path(@conn, :new) %></span>

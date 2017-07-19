@@ -1,10 +1,19 @@
-<h2><%= @post.title %></h2>
-
-<%=  render "_tags.html", tags: @post.tags %>
-
 <div class="post">
-    <%= markdown(@post.body) %>
-</div>
+    <div class="post-user text-muted">
+	<strong>
+	    <img src="<%= user_image(@conn, @post) %>" alt="<%= author_name(@post) %>" width="32" height="32"/>
+	    <%= String.upcase(author_name(@post)) %> | <%= display_date(@post.inserted_at) %>
+	</strong>
+    </div>
 
-<span><%= link "Edit", to: post_path(@conn, :edit, @post) %></span>
-<span><%= link "Back", to: post_path(@conn, :index) %></span>
+    <h1><%= @post.title %></h1>
+
+    <%=  render "_tags.html", tags: @post.tags %>
+
+    <div class="post-body">
+	<%= markdown(@post.body) %>
+    </div>
+
+    <span><%= link "Edit", to: post_path(@conn, :edit, @post) %></span>
+    <span><%= link "Back", to: post_path(@conn, :index) %></span>
+</div>

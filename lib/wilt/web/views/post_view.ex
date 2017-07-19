@@ -15,9 +15,31 @@ defmodule Wilt.Web.PostView do
 
   def author_name(post) do
     if post.user do
-      post.user.email
+      post.user.username
     else
       "unknown"
     end
+  end
+
+  def user_image(conn, post) do
+    if post.user do
+      gravatar_url(post.user)
+    else
+      static_path(conn, "/images/question_mark.png")
+    end
+  end
+  
+  def gravatar_url(user) do
+    "https://www.gravatar.com/avatar/#{gravatar_hash(user)}"
+  end
+
+  def gravatar_hash(user) do
+    :crypto.hash(:md5, user.email) |> Base.encode16(case: :lower)
+  end
+
+  def display_date(datetime), do: Wilt.Web.DateHelpers.format(datetime)
+
+  def allow_edit?(conn, post) do
+    post.user == Wilt.Web.SessionHelpers.current_user(conn)
   end
 end

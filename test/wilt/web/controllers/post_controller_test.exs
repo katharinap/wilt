@@ -9,7 +9,7 @@ defmodule Wilt.Web.PostControllerTest do
   
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, post_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing Posts"
+    assert html_response(conn, 200) =~ "What I Learned Today"
   end
 
   test "renders form for new posts when a user is logged in", %{conn: conn} do
