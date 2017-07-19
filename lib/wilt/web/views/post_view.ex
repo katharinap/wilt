@@ -15,7 +15,7 @@ defmodule Wilt.Web.PostView do
 
   def author_name(post) do
     if post.user do
-      post.user.username
+      post.user.username || post.user.email
     else
       "unknown"
     end
