@@ -6,8 +6,7 @@ defmodule Wilt.Web.PostPreviewChannel do
   end
 
   def handle_in("preview_post", %{"title" => title, "body" => body}, socket) do
-    {:safe, clean_body} = Phoenix.HTML.html_escape(body)
-    post = %Wilt.Data.Post{title: title, body: clean_body, tags: []}
+    post = %Wilt.Data.Post{title: title, body: body, tags: []}
     html = Phoenix.View.render_to_string(Wilt.Web.PostView, "_post.html", post: post)
  
     broadcast!(socket, "live_response", %{html: html})
