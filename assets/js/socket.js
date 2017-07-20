@@ -54,7 +54,24 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
+let channel = socket.channel("post-preview", {})
+
+let previewDiv = $("#preview")
+previewDiv.empty()
+
+let titleInput = $("#post_title")
+let bodyInput = $("#post_body")
+let previewButton = $("#preview-button")
+
+previewButton.click(() => {
+  channel.push("preview_post", {title: titleInput.val(), body: bodyInput.val()})
+})
+
+channel.on("live_response", payload => {
+  previewDiv.empty()
+  previewDiv.append(payload.html)
+})
+
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })

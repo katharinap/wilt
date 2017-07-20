@@ -6,13 +6,7 @@
 	</strong>
     </div>
 
-    <h1><%= @post.title %></h1>
-
-    <%=  render "_tags.html", tags: @post.tags %>
-
-    <div class="post-body">
-	<%= markdown(@post.body) %>
-    </div>
+    <%= render "_post.html", post: @post %>
 
     <span><%= link "Edit", to: post_path(@conn, :edit, @post) %></span>
     <span><%= link "Back", to: post_path(@conn, :index) %></span>

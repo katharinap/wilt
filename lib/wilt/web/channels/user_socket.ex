@@ -2,7 +2,7 @@ defmodule Wilt.Web.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", Wilt.Web.RoomChannel
+  channel "post-preview", Wilt.Web.PostPreviewChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000

@@ -26,6 +26,14 @@
   <%= hidden_input f, :user_id %>
 
   <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+      <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<div class="card">
+    <div class="card-block">
+	<button id="preview-button" class="btn btn-secondary">Preview</button>
+	<div id="preview">
+	</div>
+    </div>
+</div>
