@@ -12,7 +12,7 @@
 	    <%=  render "_tags.html", tags: post.tags %>
 	</div>
     </div>
-    <h1><%= post.title %></h1>
+    <h2><%= post.title %></h2>
     
     <div id="post-body-<%= post.id %>" class="post-body" style="display:none">
 	<%= if allow_edit?(@conn, post) do %>
