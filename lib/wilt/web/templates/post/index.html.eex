@@ -1,3 +1,10 @@
+<div class="new-post-link">
+    <%= link to: post_path(@conn, :new), class: "icon-link" do %>
+	<i class="fa fa-plus fa-lg" aria-muted="true"></i>
+	New Post
+    <% end %>
+</div>
+
 <%= for post <- @posts do %>
     <div class="row">
 	<div class="col-md-4">
@@ -45,10 +52,3 @@
     </div>
     <hr>
 <% end %>
-
-<span>
-    <%= link to: post_path(@conn, :new), class: "icon-link" do %>
-	<i class="fa fa-plus fa-lg" aria-muted="true"></i>
-	New Post
-    <% end %>
-</span>
