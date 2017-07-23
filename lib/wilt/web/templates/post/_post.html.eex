@@ -1,7 +1,32 @@
-<h1><%= @post.title %></h1>
+<h2><%= @post.title %></h2>
 
-<%= render "_tags.html", tags: @post.tags %>
+<div id="post-body-<%= @post.id %>" class="post-body" style="display:<%= if @hide, do: "none", else: "block" %>">
+    <%= if @show_actions && allow_edit?(@conn, @post) do %>
+	<div class="clearfix">
+	    <div class="post-actions pull-right">
+		<ul class="list-inline">
+		    <li class="list-inline-item">
+			<span><%= link to: post_path(@conn, :edit, @post), class: "icon-link" do %>
+			    <i class="fa fa-pencil fa-lg" aria-muted="true"></i>
+			<% end %>
+			</span>
+		    </li>
+		    <li class="list-inline-item">
+			<span><%= link to: post_path(@conn, :delete, @post), method: :delete, data: [confirm: "Are you sure?"], class: "icon-link" do %>
+			    <i class="fa fa-trash fa-lg" aria-muted="true"></i>
+			<% end %>
+			</span>
+		    </li>
+		</ul>
+	    </div>
+	</div>
+    <% end %>
 
-<div class="post-body">
     <%= markdown(@post.body) %>
 </div>
+<%= if @hide do %>
+    <div>
+	<a href="#" id="toggle-post-<%= @post.id %>" class="show-hide-toggle" data-toggle-id="post-body-<%= @post.id %>" data-show-text="Show..." data-hide-text="Hide...">Show...</a>
+	<br>
+    </div>
+<% end %>

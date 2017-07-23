@@ -1,7 +1,28 @@
-body {
-    background-image: url("/images/computer_1920.jpg");
-    background-repeat: no-repeat;
-    background-attachment: fixed
+@media screen and (min-width: 480px) {
+    body {
+	background-image: url("/images/computer_1920.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed
+    }
+
+    .container-fluid {
+	background-color: white;
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-top: 5%;
+	border-radius: 10px;
+	padding: 5%
+    }
+
+    .post-index-head {
+	float: right
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container-fluid {
+	width: 100%
+    }
 }
 
 h2 {
@@ -16,15 +37,6 @@ h2 {
 
 .show-hide-toggle {
     color: CornflowerBlue;
-}
-
-.container-fluid {
-    background-color: white;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 5%;
-    border-radius: 10px;
-    padding: 5%
 }
 
 .user-icon {
@@ -52,8 +64,4 @@ h2 {
 
 .new-post-link {
     color: SlateGray
-}
-
-.post-index-head {
-    float: right
 }

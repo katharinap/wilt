@@ -1,0 +1,11 @@
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Filter Tag
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item tag-select active" data-tag-name="all" href="#">All</a>
+    <%= for tag <- @tags do %>
+	<a class="dropdown-item tag-select" data-tag-name="<%= tag.name %>" href="#"><%= tag.name %></a>
+	<% end %>
+  </div>
+</div>

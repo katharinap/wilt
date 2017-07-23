@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+	<div class="post-user text-muted text-sm">
+	    <strong>
+		<img class="user-icon" src="<%= user_image(@conn, @post) %>" alt="<%= author_name(@post) %>"/>
+		<%= String.upcase(author_name(@post)) %> | <%= display_date(@post.inserted_at) %>
+	    </strong>
+	</div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+	<%= render "_tags.html", tags: @post.tags %>
+    </div>
+</div>

@@ -1,12 +1,6 @@
 <div class="post">
-    <div class="post-user text-muted">
-	<strong>
-	    <img src="<%= user_image(@conn, @post) %>" alt="<%= author_name(@post) %>" width="32" height="32"/>
-	    <%= String.upcase(author_name(@post)) %> | <%= display_date(@post.inserted_at) %>
-	</strong>
-    </div>
-
-    <%= render "_post.html", post: @post %>
+    <%= render "_post_head.html", post: @post, conn: @conn %>
+    <%= render "_post.html", post: @post, conn: @conn, hide: false, show_actions: true %>
 
     <span><%= link "Edit", to: post_path(@conn, :edit, @post) %></span>
     <span><%= link "Back", to: post_path(@conn, :index) %></span>
