@@ -18,7 +18,7 @@
 	    <header class="header">
 		<nav role="navigation">
 		    <ul class="list-inline pull-right">
- 			<%= if logged_in?(@conn) do %>
+ 			<%= if current_user(@conn) do %>
 			    <li class="list-inline-item text-muted">
 				<strong>
 				    <%= String.upcase(current_user(@conn).username) %>

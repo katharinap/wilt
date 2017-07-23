@@ -12,17 +12,26 @@ defmodule Wilt.Web.SessionHelpers do
   end
 
   def current_user(conn) do
-    conn.assigns[:current_user] || load_current_user(conn)
+    conn.assigns[:current_user]
   end
 
-  defp load_current_user(conn) do
-    id = Plug.Conn.get_session(conn, :user_id)
-    if id do
-      user = Wilt.Data.get_user!(id)
-      login_user(conn, user)
-      user
+  def assign_current_user(conn, _) do
+    if conn.assigns[:current_user] do
+      conn
+    else
+      user = load_current_user(conn)
+      if user do
+	login_user(conn, user)
+      else
+	conn
+      end
     end
   end
   
-  def logged_in?(conn), do: !!current_user(conn)
+  defp load_current_user(conn) do
+    id = Plug.Conn.get_session(conn, :user_id)
+    if id do
+      Wilt.Data.get_user!(id)
+    end
+  end
 end
