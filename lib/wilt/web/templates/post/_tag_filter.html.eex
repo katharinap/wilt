@@ -6,6 +6,6 @@
     <a class="dropdown-item tag-select active" data-tag-name="all" href="#">All</a>
     <%= for tag <- @tags do %>
 	<a class="dropdown-item tag-select" data-tag-name="<%= tag.name %>" href="#"><%= tag.name %></a>
-	<% end %>
+    <% end %>
   </div>
 </div>

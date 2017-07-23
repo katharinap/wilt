@@ -97,6 +97,7 @@ defmodule Wilt.DataTest do
     alias Wilt.Data.User
     
     @valid_attrs %{email: "me@example.com", password: "supersecretpassword*42", username: "me"}
+    @update_attrs %{email: "me2@example.com", password: "othersecretpassword*43", username: "me2"}
 
     def user_fixture(attrs \\ %{}) do
       insert(:user, Enum.into(attrs, @valid_attrs))
@@ -116,6 +117,7 @@ defmodule Wilt.DataTest do
     test "create_user/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Data.create_user(%{email: "meatexample.com", password: "supersecretpassword*42"})
       assert {:error, %Ecto.Changeset{}} = Data.create_user(%{email: "me@example.com", password: "i*42"})
+      assert {:error, %Ecto.Changeset{}} = Data.create_user(%{email: "me@example.com"})
     end
 
     test "get_user!/1 returns the user with given id" do
@@ -153,6 +155,25 @@ defmodule Wilt.DataTest do
       Data.create_user(@valid_attrs)
       assert :error = Data.login_user(%{"email" => "me@example.com", "password" => "lalalala"})
       assert :error = Data.login_user(%{"email" => "me2@example.com", "password" => "supersecretpassword*42"})
+    end
+
+    test "update_post/2 with valid data updates the post" do
+      user = user_fixture()
+      assert {:ok, user} = Data.update_user(user, @update_attrs)
+      assert %User{} = user
+      assert user.email == "me2@example.com"
+      assert user.username == "me2"
+      password = @update_attrs[:password]
+      assert Comeonin.Bcrypt.checkpw(password, user.crypted_password) == true
+    end
+
+    test "update_post/2 does not update the password if it's nil" do
+      {:ok, user} = Data.create_user(@valid_attrs) # we need to use the real function here to get the crypted password
+      assert {:ok, user} = Data.update_user(user, %{@update_attrs | password: nil})
+      assert %User{} = user
+      assert user.email == "me2@example.com"
+      assert user.username == "me2"
+      assert Comeonin.Bcrypt.checkpw(@valid_attrs[:password], user.crypted_password) == true
     end
   end
 end
