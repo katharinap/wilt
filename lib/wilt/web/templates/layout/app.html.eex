@@ -19,7 +19,7 @@
 		<nav role="navigation">
 		    <ul class="list-inline pull-right">
  			<%= if logged_in?(@conn) do %>
-			    <li class="list-inline-item icon-item">
+			    <li class="list-inline-item text-muted">
 				<strong>
 				    <%= String.upcase(current_user(@conn).username) %>
 				</strong>
