@@ -19,7 +19,7 @@ defmodule Wilt.Data do
   """
   def list_posts do
     Post
-    |> ordered
+    |> order_by(desc: :inserted_at)
     |> Repo.all
     |> Repo.preload([:tags, :user])
   end
@@ -221,9 +221,4 @@ defmodule Wilt.Data do
       _   -> Comeonin.Bcrypt.checkpw(password, user.crypted_password)
     end
   end
-
-  defp ordered(query) do
-    query
-    |> order_by(desc: :updated_at)
-  end    
 end
