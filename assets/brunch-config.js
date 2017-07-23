@@ -73,7 +73,8 @@ exports.config = {
     enabled: true,
     globals: {
       $: 'jquery',
-      jQuery: 'jquery'
+      jQuery: 'jquery',
+      bootstrap: 'bootstrap' // require bootstrap' JavaScript globally
     }
   }
 };

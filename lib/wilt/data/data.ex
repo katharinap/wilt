@@ -132,6 +132,7 @@ defmodule Wilt.Data do
   """
   def list_tags do
     Tag
+    |> order_by(asc: :name)
     |> Repo.all
   end
 

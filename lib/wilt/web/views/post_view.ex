@@ -42,4 +42,14 @@ defmodule Wilt.Web.PostView do
   def allow_edit?(conn, post) do
     post.user == Wilt.Web.SessionHelpers.current_user(conn)
   end
+
+  def tag_classes(tags) do
+    "tag-selectable #{do_tag_classes(tags)}"
+  end
+
+  defp do_tag_classes(tags) do
+    tags
+    |> Enum.map(&("tag-#{&1.name}"))
+    |> Enum.join(" ")
+  end
 end

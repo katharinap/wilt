@@ -1,54 +1,75 @@
-<div class="new-post-link">
-    <%= link to: post_path(@conn, :new), class: "icon-link" do %>
-	<i class="fa fa-plus fa-lg" aria-muted="true"></i>
-	New Post
-    <% end %>
+<div class="post-index-head">
+    <ul class="list-inline">
+	<li class="list-inline-item">
+	    <div class="dropdown show">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Filter Tag
+		</button>
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		    <a class="dropdown-item tag-select active" data-tag-name="all" href="#">All</a>
+		    <%= for tag <- @tags do %>
+			<a class="dropdown-item tag-select" data-tag-name="<%= tag.name %>" href="#"><%= tag.name %></a>
+		    <% end %>
+		</div>
+	    </div>
+	</li>
+	<li class="list-inline-item">
+	    <div class="new-post-link">
+		<%= link to: post_path(@conn, :new), class: "btn btn-secondary" do %>
+		    <i class="fa fa-plus fa-lg" aria-muted="true"></i>
+		    New Post
+		<% end %>
+	    </div>
+	</li>
+    </ul>
 </div>
 
 <%= for post <- @posts do %>
-    <div class="row">
-	<div class="col-md-4">
-	    <div class="post-user text-muted text-sm">
-		<strong>
-		    <img class="user-icon" src="<%= user_image(@conn, post) %>" alt="<%= author_name(post) %>"/>
-		    <%= String.upcase(author_name(post)) %> | <%= display_date(post.inserted_at) %>
-		</strong>
-	    </div>
-	</div>
-	<div class="col-md-4">
-	    <%=  render "_tags.html", tags: post.tags %>
-	</div>
-    </div>
-    <h2><%= post.title %></h2>
-    
-    <div id="post-body-<%= post.id %>" class="post-body" style="display:none">
-	<%= if allow_edit?(@conn, post) do %>
-	    <div class="clearfix">
-		<div class="post-actions pull-right">
-		    <ul class="list-inline">
-			<li class="list-inline-item">
-			    <span><%= link to: post_path(@conn, :edit, post), class: "icon-link" do %>
-				<i class="fa fa-pencil fa-lg" aria-muted="true"></i>
-			    <% end %>
-			    </span>
-			</li>
-			<li class="list-inline-item">
-			    <span><%= link to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "icon-link" do %>
-				<i class="fa fa-trash fa-lg" aria-muted="true"></i>
-			    <% end %>
-			    </span>
-			</li>
-		    </ul>
+    <div class="<%= tag_classes(post.tags) %>">
+	<div class="row">
+	    <div class="col-md-4">
+		<div class="post-user text-muted text-sm">
+		    <strong>
+			<img class="user-icon" src="<%= user_image(@conn, post) %>" alt="<%= author_name(post) %>"/>
+			<%= String.upcase(author_name(post)) %> | <%= display_date(post.inserted_at) %>
+		    </strong>
 		</div>
 	    </div>
-	<% end %>
+	    <div class="col-md-4">
+		<%=  render "_tags.html", tags: post.tags %>
+	    </div>
+	</div>
+	<h2><%= post.title %></h2>
+	
+	<div id="post-body-<%= post.id %>" class="post-body" style="display:none">
+	    <%= if allow_edit?(@conn, post) do %>
+		<div class="clearfix">
+		    <div class="post-actions pull-right">
+			<ul class="list-inline">
+			    <li class="list-inline-item">
+				<span><%= link to: post_path(@conn, :edit, post), class: "icon-link" do %>
+				    <i class="fa fa-pencil fa-lg" aria-muted="true"></i>
+				<% end %>
+				</span>
+			    </li>
+			    <li class="list-inline-item">
+				<span><%= link to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "icon-link" do %>
+				    <i class="fa fa-trash fa-lg" aria-muted="true"></i>
+				<% end %>
+				</span>
+			    </li>
+			</ul>
+		    </div>
+		</div>
+	    <% end %>
 
-	<%= markdown(post.body) %>
-    </div>
+	    <%= markdown(post.body) %>
+	</div>
 
-    <div>
-	<a href="#" id="toggle-post-<%=  post.id %>" class="show-hide-toggle" data-toggle-id="post-body-<%= post.id %>" data-show-text="Show..." data-hide-text="Hide...">Show...</a>
-	<br>
+	<div>
+	    <a href="#" id="toggle-post-<%=  post.id %>" class="show-hide-toggle" data-toggle-id="post-body-<%= post.id %>" data-show-text="Show..." data-hide-text="Hide...">Show...</a>
+	    <br>
+	</div>
+	<hr>
     </div>
-    <hr>
 <% end %>
