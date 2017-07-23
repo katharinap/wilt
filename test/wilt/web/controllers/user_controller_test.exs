@@ -37,7 +37,7 @@ defmodule Wilt.Web.UserControllerTest do
 
   test "renders form for editing chosen user", %{conn: conn} do
     user = insert(:user, @create_attrs)
-    conn = get with_user_session(conn, user.id), user_path(conn, :edit, user)
+    conn = get with_user_session(conn, user), user_path(conn, :edit, user)
     assert html_response(conn, 200) =~ "Edit User"
   end
 
@@ -50,7 +50,7 @@ defmodule Wilt.Web.UserControllerTest do
   test "does not render form for editing chosen user if it's different from the logged in user", %{conn: conn} do
     user1 = insert(:user)
     user2 = insert(:user)
-    conn = get with_user_session(conn, user1.id), user_path(conn, :edit, user2)
+    conn = get with_user_session(conn, user1), user_path(conn, :edit, user2)
     assert redirected_to(conn) == "/"
   end
 
@@ -58,7 +58,7 @@ defmodule Wilt.Web.UserControllerTest do
     user_params = params_for(:user, @create_attrs)
     user = insert(:user, user_params)
     update_params = %{@create_attrs | email: "lalala@example.com"}
-    conn = put with_user_session(conn, user.id), user_path(conn, :update, user), user: update_params
+    conn = put with_user_session(conn, user), user_path(conn, :update, user), user: update_params
     assert redirected_to(conn) == "/"
 
     user = Wilt.Data.get_user!(user.id)
@@ -69,7 +69,7 @@ defmodule Wilt.Web.UserControllerTest do
     user_params = params_for(:user, @create_attrs)
     user = insert(:user, user_params)
     update_params = %{@create_attrs | email: "lalalaexample.com"}
-    conn = put with_user_session(conn, user.id), user_path(conn, :update, user), user: update_params
+    conn = put with_user_session(conn, user), user_path(conn, :update, user), user: update_params
     assert html_response(conn, 200) =~ "Edit User"
   end
 end

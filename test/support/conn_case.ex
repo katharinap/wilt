@@ -25,14 +25,9 @@ defmodule Wilt.Web.ConnCase do
       # The default endpoint for testing
       @endpoint Wilt.Web.Endpoint
 
-      def with_user_session(conn), do: with_user_session(conn, insert(:user).id)
-      def with_user_session(conn, user_id) do
-	# ???
-	session_opts = Plug.Session.init(store: :cookie, key: "_app", encryption_salt: "abc", signing_salt: "abc")
-	conn
-	|> Plug.Session.call(session_opts)
-	|> Plug.Conn.fetch_session()
-	|> Plug.Conn.put_session(:current_user, user_id)
+      def with_user_session(conn), do: with_user_session(conn, insert(:user))
+      def with_user_session(conn, user) do
+	assign(conn, :current_user, user)	
       end  
     end
   end
@@ -45,5 +40,4 @@ defmodule Wilt.Web.ConnCase do
     end
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

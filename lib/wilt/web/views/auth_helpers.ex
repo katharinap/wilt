@@ -1,8 +1,10 @@
 defmodule Wilt.Web.AuthHelpers do
   use Wilt.Web, :controller
 
+  import Wilt.Web.SessionHelpers, only: [current_user: 1]
+  
   def authenticate(conn) do
-    if Wilt.Web.SessionHelpers.current_user(conn) do
+    if current_user(conn) do
       conn
     else
       conn
@@ -13,7 +15,7 @@ defmodule Wilt.Web.AuthHelpers do
   end
 
   def authorize(conn, user) do
-    if user == Wilt.Web.SessionHelpers.current_user(conn) do
+    if user.id == current_user(conn).id do
       conn
     else
       conn

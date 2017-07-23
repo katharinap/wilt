@@ -20,26 +20,26 @@ defmodule Wilt.Web.SessionControllerTest do
   test "it logs the user in if email and password are correct", %{conn: conn} do
     user = fixture(:user)
     conn = post conn, session_path(conn, :create), session: @user_attrs
-    assert Plug.Conn.get_session(conn, :current_user) == user.id
+    assert Plug.Conn.get_session(conn, :user_id) == user.id
     assert redirected_to(conn) == "/"
   end
   
   test "it does not log the user in if email or password are incorrect", %{conn: conn} do
     fixture(:user)
     conn = post conn, session_path(conn, :create), session: %{email: "me2@example.com", password: "supersecretpassword*42"}
-    assert Plug.Conn.get_session(conn, :current_user) == nil
+    assert Plug.Conn.get_session(conn, :user_id) == nil
     assert html_response(conn, 200) =~ "Login"
     conn = post conn, session_path(conn, :create), session: %{email: "me@example.com", password: "supersecretpassword*41"}
-    assert Plug.Conn.get_session(conn, :current_user) == nil
+    assert Plug.Conn.get_session(conn, :user_id) == nil
     assert html_response(conn, 200) =~ "Login"
   end
 
   test "it logs the user out", %{conn: conn} do
     user = fixture(:user)
     conn = post conn, session_path(conn, :create), session: @user_attrs
-    assert Plug.Conn.get_session(conn, :current_user) == user.id
+    assert Plug.Conn.get_session(conn, :user_id) == user.id
     conn = delete conn, session_path(conn, :delete), %{}
-    assert Plug.Conn.get_session(conn, :current_user) == nil
+    assert Plug.Conn.get_session(conn, :user_id) == nil
     assert redirected_to(conn) == "/"
   end
 end

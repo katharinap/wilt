@@ -39,7 +39,7 @@ defmodule Wilt.Web.PostControllerTest do
 
   test "renders form for editing chosen post", %{conn: conn} do
     post = fixture(:post)
-    conn = get with_user_session(conn, post.user_id), post_path(conn, :edit, post)
+    conn = get with_user_session(conn, post.user), post_path(conn, :edit, post)
     assert html_response(conn, 200) =~ "Edit Post"
   end
 
@@ -57,7 +57,7 @@ defmodule Wilt.Web.PostControllerTest do
 
   test "updates chosen post and redirects when data is valid", %{conn: conn} do
     post = fixture(:post)
-    conn = put with_user_session(conn, post.user_id), post_path(conn, :update, post), post: @update_attrs
+    conn = put with_user_session(conn, post.user), post_path(conn, :update, post), post: @update_attrs
     assert redirected_to(conn) == post_path(conn, :show, post)
 
     conn = get conn, post_path(conn, :show, post)
@@ -66,13 +66,13 @@ defmodule Wilt.Web.PostControllerTest do
 
   test "does not update chosen post and renders errors when data is invalid", %{conn: conn} do
     post = fixture(:post)
-    conn = put with_user_session(conn, post.user_id), post_path(conn, :update, post), post: @invalid_attrs
+    conn = put with_user_session(conn, post.user), post_path(conn, :update, post), post: @invalid_attrs
     assert html_response(conn, 200) =~ "Edit Post"
   end
 
   test "deletes chosen post", %{conn: conn} do
     post = fixture(:post)
-    conn = delete with_user_session(conn, post.user_id), post_path(conn, :delete, post)
+    conn = delete with_user_session(conn, post.user), post_path(conn, :delete, post)
     assert redirected_to(conn) == post_path(conn, :index)
     assert_error_sent 404, fn ->
       get conn, post_path(conn, :show, post)

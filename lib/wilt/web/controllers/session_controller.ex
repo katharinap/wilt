@@ -1,8 +1,10 @@
 defmodule Wilt.Web.SessionController do
   use Wilt.Web, :controller
 
+  import Wilt.Web.SessionHelpers, only: [login_user: 2, logout: 1]
+  
   alias Wilt.Data
-
+  
   def new(conn, _params) do
     render(conn, "new.html")
   end
@@ -11,7 +13,7 @@ defmodule Wilt.Web.SessionController do
     case Data.login_user(session_params) do
       {:ok, user} ->
 	conn
-	|> put_session(:current_user, user.id)
+	|> login_user(user)
 	|> put_flash(:info, "Logged in")
 	|> redirect(to: "/")
       :error ->
@@ -23,7 +25,7 @@ defmodule Wilt.Web.SessionController do
 
   def delete(conn, _) do
     conn
-    |> delete_session(:current_user)
+    |> logout
     |> put_flash(:info, "Logged out")
     |> redirect(to: "/")
   end  
