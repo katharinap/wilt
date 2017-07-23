@@ -17,7 +17,7 @@
 <%= for post <- @posts do %>
     <div class="<%= tag_classes(post.tags) %>">
 	<%= render "_post_head.html", post: post, conn: @conn %>
-	<%= render "_post.html", conn: @conn, post: post, hide: true, show_actions: true %>
+	<%= render "_post.html", conn: @conn, post: post, preview: false %>
 	<hr>
     </div>
 <% end %>

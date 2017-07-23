@@ -1,7 +1,7 @@
 <h2><%= @post.title %></h2>
 
-<div id="post-body-<%= @post.id %>" class="post-body" style="display:<%= if @hide, do: "none", else: "block" %>">
-    <%= if @show_actions && allow_edit?(@conn, @post) do %>
+<div id="post-body-<%= @post.id %>" class="post-body" style="display:<%= if @preview, do: "block", else: "none" %>">
+    <%= if !@preview && allow_edit?(@conn, @post) do %>
 	<div class="clearfix">
 	    <div class="post-actions pull-right">
 		<ul class="list-inline">
@@ -24,7 +24,7 @@
 
     <%= markdown(@post.body) %>
 </div>
-<%= if @hide do %>
+<%= unless @preview do %>
     <div>
 	<a href="#" id="toggle-post-<%= @post.id %>" class="show-hide-toggle" data-toggle-id="post-body-<%= @post.id %>" data-show-text="Show..." data-hide-text="Hide...">Show...</a>
 	<br>
