@@ -39,7 +39,7 @@ defmodule Wilt.Web do
       import Wilt.Web.Router.Helpers
       import Wilt.Web.ErrorHelpers
       import Wilt.Web.Gettext
-      import Wilt.Web.SessionHelpers
+      import Wilt.Web.SessionHelpers, only: [current_user: 1]
     end
   end
 
