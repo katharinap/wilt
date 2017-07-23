@@ -1,7 +1,0 @@
-<div class="post">
-    <%= render "_post_head.html", post: @post, conn: @conn %>
-    <%= render "_post.html", post: @post, conn: @conn, hide: false, show_actions: true %>
-
-    <span><%= link "Edit", to: post_path(@conn, :edit, @post) %></span>
-    <span><%= link "Back", to: post_path(@conn, :index) %></span>
-</div>

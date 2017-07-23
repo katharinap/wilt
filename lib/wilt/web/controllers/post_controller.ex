@@ -1,8 +1,8 @@
 defmodule Wilt.Web.PostController do
   use Wilt.Web, :controller
 
-  plug :authenticate when not action in [:index, :show]
-  plug :find_post when action in [:show, :edit, :update, :delete]
+  plug :authenticate when not action in [:index]
+  plug :find_post when action in [:edit, :update, :delete]
   plug :authorize when action in [:edit, :delete, :update]
 
   alias Wilt.Data
@@ -21,19 +21,15 @@ defmodule Wilt.Web.PostController do
 
   def create(conn, %{"post" => post_params}) do
     case Data.create_post(post_params) do
-      {:ok, post} ->
+      {:ok, _post} ->
         conn
         |> put_flash(:info, "Post created successfully.")
-        |> redirect(to: post_path(conn, :show, post))
+        |> redirect(to: post_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
-
-  def show(conn, _params) do
-    render(conn, "show.html")
-  end
-
+  
   def edit(conn, _params) do
     post = conn.assigns[:post]
     changeset = Data.change_post(post)
@@ -43,10 +39,10 @@ defmodule Wilt.Web.PostController do
   def update(conn, %{"post" => post_params}) do
     post = conn.assigns[:post]
     case Data.update_post(post, post_params) do
-      {:ok, post} ->
+      {:ok, _post} ->
         conn
         |> put_flash(:info, "Post updated successfully.")
-        |> redirect(to: post_path(conn, :show, post))
+        |> redirect(to: post_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", post: post, changeset: changeset)
     end

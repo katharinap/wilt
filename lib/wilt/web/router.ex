@@ -20,7 +20,7 @@ defmodule Wilt.Web.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PostController, :index
-    resources "/posts", PostController
+    resources "/posts", PostController, except: [:show]
     resources "/users", UserController, only: [:new, :create, :edit, :update]
     get    "/login",  SessionController, :new
     post   "/login",  SessionController, :create
