@@ -14,7 +14,7 @@ defmodule Wilt.Web.PostController do
   end
 
   def new(conn, _params) do
-    user_id = get_session(conn, :current_user)
+    user_id = get_session(conn, :user_id)
     changeset = Data.change_post(%Wilt.Data.Post{user_id: user_id})
     render(conn, "new.html", changeset: changeset)
   end
